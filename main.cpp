@@ -14,10 +14,6 @@ std::uniform_int_distribution<std::mt19937::result_type> frandom(0, 6);
 struct pos_t {
     int X = 0;
     int Y = 0;
-
-    void print() {
-        cout << "X: " << X << ", Y: " << Y << endl;
-    }
 };
 
 struct figure_t {
