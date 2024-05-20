@@ -1,6 +1,10 @@
 #define FIELD_WIDTH 10
 #define FIELD_HEIGHT 18
 
+#ifdef _WIN32
+#pragma comment(lib,"winmm.lib")
+#endif
+
 #include <iostream>
 #include <vector>
 #include <random>
@@ -62,7 +66,7 @@ void findRightPeaks(figure_t& figure) {
     }
 
     for (int i = minY; i <= maxY; i++) {
-        pos_t peak = {minX, 0};
+        pos_t peak = { minX, 0 };
 
         for (pos_t& i : findRow(figure, i)) if (i.X >= peak.X) peak = i;
 
@@ -82,7 +86,7 @@ void findLeftPeaks(figure_t& figure) {
     }
 
     for (int i = minY; i <= maxY; i++) {
-        pos_t peak = {maxX, 0};
+        pos_t peak = { maxX, 0 };
 
         for (pos_t& i : findRow(figure, i)) if (i.X <= peak.X) peak = i;
 
@@ -103,7 +107,7 @@ void findDownPeaks(figure_t& figure) {
     }
 
     for (int i = minX; i <= maxX; i++) {
-        pos_t peak = {0, minY};
+        pos_t peak = { 0, minY };
 
         for (pos_t& i : findColumn(figure, i)) if (i.Y >= peak.Y) peak = i;
 
@@ -118,7 +122,7 @@ bool checkCollision(figure_t figure, collide_dir dir, bool check_my_pos = false)
         for (pos_t i : figure.rightPeaks) if (figure.absPos.X + i.X >= FIELD_WIDTH) return true;
         for (pos_t i : figure.leftPeaks) if (figure.absPos.X + i.X < 0) return true;
     }
-    
+
     if (dir == DOWN || dir == ANY) {
         for (pos_t i : figure.downPeaks) {
             if (figure.absPos.Y + i.Y + 1 >= FIELD_HEIGHT) return true;
@@ -270,14 +274,14 @@ void rotateFigure(figure_t& figure) {
 
     if (!checkCollision(newFigure, ANY, true)) figure = newFigure;;
 
-    insertToField(figure);   
+    insertToField(figure);
 }
 
 figure_t create_I(pos_t pos) {
     figure_t figure;
     figure.absPos = pos;
     figure.rotatePoint = 1;
-    figure.blockpos = {{0, 0}, {0, 1}, {0, 2}, {0, 3}};
+    figure.blockpos = { {0, 0}, {0, 1}, {0, 2}, {0, 3} };
 
     normalizeFigure(figure);
 
@@ -288,16 +292,16 @@ figure_t create_I(pos_t pos) {
     return figure;
 }
 
-figure_t create_I(int X, int Y) { return create_I({X, Y}); }
+figure_t create_I(int X, int Y) { return create_I({ X, Y }); }
 
 figure_t create_J(pos_t pos) {
     figure_t figure;
     figure.absPos = pos;
     figure.rotatePoint = 1;
-    figure.blockpos = {{0, 0}, {0, 1}, {0, 2}, {-1, 2}};
+    figure.blockpos = { {0, 0}, {0, 1}, {0, 2}, {-1, 2} };
 
     normalizeFigure(figure);
-    
+
     findRightPeaks(figure);
     findLeftPeaks(figure);
     findDownPeaks(figure);
@@ -305,16 +309,16 @@ figure_t create_J(pos_t pos) {
     return figure;
 }
 
-figure_t create_J(int X, int Y) { return create_J({X, Y}); }
+figure_t create_J(int X, int Y) { return create_J({ X, Y }); }
 
 figure_t create_L(pos_t pos) {
     figure_t figure;
     figure.absPos = pos;
     figure.rotatePoint = 1;
-    figure.blockpos = {{0, 0}, {0, 1}, {0, 2}, {1, 2}};
+    figure.blockpos = { {0, 0}, {0, 1}, {0, 2}, {1, 2} };
 
     normalizeFigure(figure);
-    
+
     findRightPeaks(figure);
     findLeftPeaks(figure);
     findDownPeaks(figure);
@@ -322,13 +326,13 @@ figure_t create_L(pos_t pos) {
     return figure;
 }
 
-figure_t create_L(int X, int Y) { return create_L({X, Y}); }
+figure_t create_L(int X, int Y) { return create_L({ X, Y }); }
 
 figure_t create_O(pos_t pos) {
     figure_t figure;
     figure.absPos = pos;
     figure.rotatePoint = 0;
-    figure.blockpos = {{0, 0}, {1, 0}, {0, 1}, {1, 1}};
+    figure.blockpos = { {0, 0}, {1, 0}, {0, 1}, {1, 1} };
 
     normalizeFigure(figure);
 
@@ -339,13 +343,13 @@ figure_t create_O(pos_t pos) {
     return figure;
 }
 
-figure_t create_O(int X, int Y) { return create_O({X, Y}); }
+figure_t create_O(int X, int Y) { return create_O({ X, Y }); }
 
 figure_t create_S(pos_t pos) {
     figure_t figure;
     figure.absPos = pos;
     figure.rotatePoint = 2;
-    figure.blockpos = {{0, 0}, {1, 0}, {-1, 1}, {0, 1}};
+    figure.blockpos = { {0, 0}, {1, 0}, {-1, 1}, {0, 1} };
 
     normalizeFigure(figure);
 
@@ -356,16 +360,16 @@ figure_t create_S(pos_t pos) {
     return figure;
 }
 
-figure_t create_S(int X, int Y) { return create_S({X, Y}); }
+figure_t create_S(int X, int Y) { return create_S({ X, Y }); }
 
 figure_t create_Z(pos_t pos) {
     figure_t figure;
     figure.absPos = pos;
     figure.rotatePoint = 2;
-    figure.blockpos = {{0, 0}, {1, 0}, {1, 1}, {2, 1}};
+    figure.blockpos = { {0, 0}, {1, 0}, {1, 1}, {2, 1} };
 
     normalizeFigure(figure);
-    
+
     findRightPeaks(figure);
     findLeftPeaks(figure);
     findDownPeaks(figure);
@@ -373,13 +377,13 @@ figure_t create_Z(pos_t pos) {
     return figure;
 }
 
-figure_t create_Z(int X, int Y) { return create_Z({X, Y}); }
+figure_t create_Z(int X, int Y) { return create_Z({ X, Y }); }
 
 figure_t create_T(pos_t pos) {
     figure_t figure;
     figure.absPos = pos;
     figure.rotatePoint = 1;
-    figure.blockpos = {{0, 0}, {1, 0}, {2, 0}, {1, 1}};
+    figure.blockpos = { {0, 0}, {1, 0}, {2, 0}, {1, 1} };
 
     normalizeFigure(figure);
 
@@ -390,7 +394,7 @@ figure_t create_T(pos_t pos) {
     return figure;
 }
 
-figure_t create_T(int X, int Y) { return create_T({X, Y}); }
+figure_t create_T(int X, int Y) { return create_T({ X, Y }); }
 
 figure_t randomFigure() {
     int frand = frandom(rng);
@@ -405,7 +409,7 @@ figure_t randomFigure() {
     return create_T(4, 0);
 }
 
-int main() {    
+int main() {
     InitWindow(500, 900, "Tetris");
     SetTargetFPS(30);
 
@@ -415,7 +419,7 @@ int main() {
     insertToField(currentFigure);
 
     double start = GetTime();
-    
+
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);
@@ -429,8 +433,9 @@ int main() {
 
             start = GetTime();
             moveFigureY(currentFigure);
-        } else if (IsKeyPressed(KEY_DOWN)) moveFigureY(currentFigure);
-    
+        }
+        else if (IsKeyPressed(KEY_DOWN)) moveFigureY(currentFigure);
+
 
         if (IsKeyPressed(KEY_RIGHT)) moveFigureX(currentFigure);
         if (IsKeyPressed(KEY_LEFT)) moveFigureX(currentFigure, true);
@@ -442,10 +447,9 @@ int main() {
             currentFigure = randomFigure();
             insertToField(currentFigure);
         }
-        
+
         drawField();
 
         EndDrawing();
     }
-    
 }
