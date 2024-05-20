@@ -111,9 +111,9 @@ void findDownPeaks(figure_t& figure) {
     }
 }
 
-bool checkCollision(figure_t figure, collide_dir dir, bool check_rotate = false) {
+bool checkCollision(figure_t figure, collide_dir dir, bool check_my_pos = false) {
 
-    if (dir == ANY && check_rotate) {
+    if (dir == ANY && check_my_pos) {
         for (pos_t i : figure.downPeaks) if (figure.absPos.Y + i.Y >= FIELD_HEIGHT) return true;
         for (pos_t i : figure.rightPeaks) if (figure.absPos.X + i.X >= FIELD_WIDTH) return true;
         for (pos_t i : figure.leftPeaks) if (figure.absPos.X + i.X < 0) return true;
@@ -123,7 +123,7 @@ bool checkCollision(figure_t figure, collide_dir dir, bool check_rotate = false)
         for (pos_t i : figure.downPeaks) {
             if (figure.absPos.Y + i.Y + 1 >= FIELD_HEIGHT) return true;
             else if (field[figure.absPos.X + i.X][figure.absPos.Y + i.Y + 1]) return true;
-            else if (check_rotate && field[figure.absPos.X + i.X][figure.absPos.Y + i.Y]) return true;
+            else if (check_my_pos && field[figure.absPos.X + i.X][figure.absPos.Y + i.Y]) return true;
         }
     }
 
@@ -131,7 +131,7 @@ bool checkCollision(figure_t figure, collide_dir dir, bool check_rotate = false)
         for (pos_t i : figure.rightPeaks) {
             if (figure.absPos.X + i.X + 1 >= FIELD_WIDTH) return true;
             else if (field[figure.absPos.X + i.X + 1][figure.absPos.Y + i.Y]) return true;
-            else if (check_rotate && field[figure.absPos.X + i.X][figure.absPos.Y + i.Y]) return true;
+            else if (check_my_pos && field[figure.absPos.X + i.X][figure.absPos.Y + i.Y]) return true;
         }
     }
 
@@ -139,7 +139,7 @@ bool checkCollision(figure_t figure, collide_dir dir, bool check_rotate = false)
         for (pos_t i : figure.leftPeaks) {
             if (figure.absPos.X + i.X == 0) return true;
             else if (field[figure.absPos.X + i.X - 1][figure.absPos.Y + i.Y]) return true;
-            else if (check_rotate && field[figure.absPos.X + i.X][figure.absPos.Y + i.Y]) return true;
+            else if (check_my_pos && field[figure.absPos.X + i.X][figure.absPos.Y + i.Y]) return true;
         }
     }
 
