@@ -443,8 +443,6 @@ int main() {
             insertToField(currentFigure);
         }
         
-        
-        
         drawField();
 
         EndDrawing();
